@@ -14,14 +14,6 @@ services:
       - 2222:22
     secrets:
       - user_ssh_rsa
-  centos1:
-    image: centos:ssh
-    container_name: centos_ssh
-    ports:
-      - 3333:22
-    secrets:
-      - user_ssh_rsa
-    privileged: true
 
 secrets:
   user_ssh_rsa:
