@@ -8,7 +8,21 @@ In this project we will run using docker-compose a few servers ready to play wit
 
 ## 2. Ubuntu Severs Configuration
 
+### 2.1 Docker Image
+
 The server configuration is in [Dockerfile](Dockerfile).
+
+Pull the ubuntu:latest image:
+```bash
+docker pull ubuntu:latest
+```
+
+Build the image using the custom Dockerfile:
+```bash
+docker build -t ubuntu:ssh .
+```
+
+## 2.2 Docker Compose
 
 We have configured 2 services in the [docker-compose.yaml](docker-compose.yaml):
 - `ubuntu1`: ubuntu:latest image with ssh service configured
@@ -22,6 +36,8 @@ secrets:
 ```
 
 ## 3. Centos7 Server Configuration
+
+## 3.1 Docker Image
 For centos7 it was imposible to configure the servers using docker compose, because to use ssh centos7 needs priviliged container, which is not compatible with mounting secrets or volumes in centos7.
 
 So the configuration of the image is in the [centos.Dockerfile](centos.Dockerfile).
