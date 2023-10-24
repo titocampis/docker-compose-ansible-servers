@@ -1,0 +1,8 @@
+---
+- name: My first playbook
+  hosts: ubuntu1
+  tasks:
+  - debug:
+      var: username
+  - debug:
+      var: invented

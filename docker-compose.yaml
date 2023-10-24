@@ -2,25 +2,26 @@ version: "2.22"
 services:
   ubuntu1:
     image: ubuntu:ssh
-    container_name: ubuntu_ssh
+    container_name: ubuntu_ssh1
     ports:
-      - 2222:22
+      - 1111:22
     secrets:
       - user_ssh_rsa
   ubuntu2:
     image: ubuntu:ssh
-    container_name: ubuntu_ssh
+    container_name: ubuntu_ssh2
+    ports:
+      - 2222:22
+    secrets:
+      - user_ssh_rsa
+  centos1:
+    image: centos:ssh
+    container_name: centos_ssh
     ports:
       - 3333:22
     secrets:
       - user_ssh_rsa
-  ubuntu3:
-    image: ubuntu:ssh
-    container_name: ubuntu_ssh
-    ports:
-      - 4444:22
-    secrets:
-      - user_ssh_rsa
+    privileged: true
 
 secrets:
   user_ssh_rsa:
