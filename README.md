@@ -22,7 +22,7 @@ Build the image using the custom Dockerfile:
 docker build -t ubuntu:ssh .
 ```
 
-## 2.2 Docker Compose
+### 2.2 Docker Compose
 
 We have configured 2 services in the [docker-compose.yaml](docker-compose.yaml):
 - `ubuntu1`: ubuntu:latest image with ssh service configured
@@ -37,7 +37,7 @@ secrets:
 
 ## 3. Centos7 Server Configuration
 
-## 3.1 Docker Image
+### 3.1 Docker Image
 For centos7 it was imposible to configure the servers using docker compose, because to use ssh centos7 needs priviliged container, which is not compatible with mounting secrets or volumes in centos7.
 
 So the configuration of the image is in the [centos.Dockerfile](centos.Dockerfile).
@@ -83,7 +83,7 @@ docker compose up -d ubuntu1 ubuntu2
 docker compose up -d
 ```
 
-## 5.3 Start centos server
+### 5.3 Start centos server
 ```bash
 docker run --rm -d --privileged=true --name centos_ssh1 -p 3333:22 -v ~/.ssh/id_rsa_shared.pub:/home/alex/.ssh/authorized_keys:ro centos:ssh
 ```
