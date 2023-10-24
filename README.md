@@ -100,4 +100,21 @@ docker rm -f centos1
 
 ## 6. Ansible
 
-### 6.1 
+### 6.1 Ansible Project Structure
+```bash
+├── inventories/ # Folder where the inventories will be stored
+│   └── inventory.ini # Main inventory
+├── playbooks/ # Folder where the playbooks will be stored
+...
+```
+
+### 6.2 My first ansible Code
+We have generated these 2 easy yaml files to run our first ansible playbook
+- [inventories/inventory.ini](inventories/inventory.ini)
+- [playbooks/basic_playbook.yaml](playbooks/basic_playbook.yaml)
+
+So let's run it:
+```bash
+ansible-playbook playbooks/basic_playbook.yaml -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex
+```
+![im2.png](pictures/im2.png)
