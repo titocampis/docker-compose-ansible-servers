@@ -1,0 +1,11 @@
+- name: Print hello message to user
+  hosts: ubuntu
+  gather_facts: no
+  vars:
+    hello_msg: Hello from Ansible
+  tasks:
+  - debug:
+      msg: "{{ hello_msg }} {{ username }}"
+    register: result
+  - debug:
+      var: result

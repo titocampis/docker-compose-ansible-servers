@@ -1,0 +1,8 @@
+- name: Ensure file content 
+  hosts: ubuntu1
+  tasks:
+  - name: Add the line RSAAuthentication no if it is not present into /etc/ssh/sshd_config file
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      line: 'RSAAuthentication no'
+    become: yes

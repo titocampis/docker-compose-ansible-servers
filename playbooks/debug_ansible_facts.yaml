@@ -1,0 +1,10 @@
+- name: Debug Ansible Facts
+  hosts: ubuntu1
+  tasks:
+  - debug:
+      var: ansible_facts
+    register: result
+  - debug:
+      var: ansible_facts.architecture
+  - debug:
+      var: ansible_facts.distribution_file_path

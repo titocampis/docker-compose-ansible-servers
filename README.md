@@ -107,7 +107,11 @@ We have generated these 2 easy yaml files to run our first ansible playbook
 - [inventories/inventory.ini](inventories/inventory.ini)
 - [playbooks/basic_playbook.yaml](playbooks/basic_playbook.yaml)
 
-So let's run it:
+So let's check it:
+```bash
+ansible-playbook playbooks/basic_playbook.yaml -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex --check
+```
+And if everything went well, run it:
 ```bash
 ansible-playbook playbooks/basic_playbook.yaml -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex
 ```
