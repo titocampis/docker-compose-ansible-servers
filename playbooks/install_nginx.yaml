@@ -1,0 +1,17 @@
+- name: Install NGINX
+  hosts: all
+  tasks:
+  - name: Installing NGINX on Ubuntu or Debian
+    apt:
+      name: NGINX
+      state: present
+    when: ansible_os_family == "Ubuntu" or ansible_os_family == "Debian"
+
+- name: Install NGINX on Centos
+  hosts: centos
+  tasks:
+    - name: Installing NGINX on Centos
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Centos" or ansible_os_family == "RedHat"
