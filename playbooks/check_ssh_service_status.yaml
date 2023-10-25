@@ -3,14 +3,14 @@
   tasks:
   - command: service ssh status
     register: result
-  # - mail:
-  #     to: alejandro.campos@sita.aero
-  #     subject: Service Alert
-  #     body: ssh service is down
-  #     when: result.stdout.find('down') != -1
   - debug:
       var: result.stdout
   - debug:
       var: result.stdout.find('run')
   - debug:
       var: result.stdout.find('down')
+  # - mail:
+  #     to: alejandro.campos@sita.aero
+  #     subject: Service Alert
+  #     body: ssh service is down
+  #   when: result.stdout.find('down') != -1
