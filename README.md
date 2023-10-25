@@ -6,11 +6,13 @@
 
 In this project we will run using docker-compose a few servers ready to play with using Ansible. The way we have configured the image and the servers from scratch is in the following [GitHub Project - SSH docker container](https://github.com/titocampis/ssh-docker-container)
 
-## 2. Ubuntu Severs Configuration
+## 2. Severs Configuration
 
-### 2.1 Docker Image
+### 2.1 Docker Images
 
-The server configuration is in [Dockerfile](Dockerfile).
+#### 2.1.1 Ubuntu Image
+
+The ubuntu server image configuration is in [Dockerfile](Dockerfile).
 
 Pull the ubuntu:latest image:
 ```bash
@@ -22,25 +24,9 @@ Build the image using the custom Dockerfile:
 docker build -t ubuntu:ssh .
 ```
 
-### 2.2 Docker Compose
+#### 2.1.2 Centos Image
 
-We have configured 2 services in the [docker-compose.yaml](docker-compose.yaml):
-- `ubuntu1`: ubuntu:latest image with ssh service configured
-- `ubuntu2`: ubuntu:latest image with ssh service configured
-
-We have configured a secret to pass into the ubuntu containers our `id_rsa.pub` public key:
-```yaml
-secrets:
-  user_ssh_rsa:
-    file: ~/.ssh/id_rsa.pub
-```
-
-## 3. Centos7 Server Configuration
-
-### 3.1 Docker Image
-For centos7 it was imposible to configure the servers using docker compose, because to use ssh centos7 needs priviliged container, which is not compatible with mounting secrets or volumes in centos7.
-
-So the configuration of the image is in the [centos.Dockerfile](centos.Dockerfile).
+The centos server image configuration is in [centos.Dockerfile](centos.Dockerfile).
 
 Pull the centos/systemd:latest image:
 ```bash
@@ -51,7 +37,18 @@ Build the image using the custom Dockerfile:
 ```bash
 docker build -t centos:ssh . -f centos.Dockerfile
 ```
-## 4. RSA Key used in the servers
+
+### 2.2 Containers configuration - Docker Compose
+
+We have configured 3 services in the [docker-compose.yaml](docker-compose.yaml):
+- `ubuntu1`: ubuntu:latest image with user and ssh service configured
+- `ubuntu2`: ubuntu:latest image with user and ssh service configured
+- `centos1`: centos/systemd:latest image with user and ssh service configured
+
+We have configured a secret to pass into the ubuntu containers our `id_rsa.pub` public key. Also we have configured a volume for centos container to share the public key, because **centos needs to run as privileged container to can run services using systemd**. And secrets are not compatible with `priviliged=true` container. You can check all in [docker-compose.yaml](docker-compose.yaml).
+
+
+## 3. RSA Key used in the servers
 
 We have choosen to share `~/.ssh/id_rsa_shared.pub` in all servers, but it is not in the default ssh checked keys:
 - `~/.ssh/id_ecdsa`
@@ -63,44 +60,41 @@ We have choosen to share `~/.ssh/id_rsa_shared.pub` in all servers, but it is no
 - `~/.ssh/id_dsa`
 - `~/.ssh/id_rsa`
 
-So we will have to choose the private key we want using `--private-key`. Also the user configured inside the server is `alex`, you can check it into the [Dockerfile](Dockerfile). So by default, if no `username` is passed to ssh, it tries to stablish the connection with your local linux user. So to run the playbooks on any machine regardless the `username` you can user the flag `-u my_username`
+So we will have to choose the private key we want using `--private-key`. Also the user configured inside the server is `alex`, you can check it into the [Dockerfile](Dockerfile) or [centos.Dockerfile](centos.Dockerfile). So by default, if no `username` is passed to ssh, it tries to stablish the connection with your local linux user. So to run the playbooks on any machine regardless the `username` you can user the flag `-u my_username`
 ```bash
 ansible-playbook ... --private-key ~/.ssh/id_rsa_shared -u jiminycricket
 ```
 
-## 5. Start the Services
-### 5.1 Start one ubuntu server
+## 4. Start the Services
+### 4.1 Start one server
 To start just one server, we have to tell docker-compose to run only one of the services:
 ```bash
 docker compose up -d ubuntu1
 ```
 
-### 5.2 Start both ubuntu servers
+### 4.2 Start both ubuntu servers
 ```bash
 docker compose up -d ubuntu1 ubuntu2
 ```
+
+### 4.3 Start all servers
 ```bash
 docker compose up -d
 ```
 
-### 5.3 Start centos server
+### 4.4 Stop both ubuntu servers
 ```bash
-docker run --rm -d --privileged=true --name centos_ssh1 -p 3333:22 -v ~/.ssh/id_rsa_shared.pub:/home/alex/.ssh/authorized_keys:ro centos:ssh
+docker compose down ubuntu1 ubuntu2
 ```
 
-### 5.4 Stop both ubuntu servers
+### 4.5 Stop all servers
 ```bash
 docker compose down
 ```
 
-### 5.5 Stop centos server
-```bash
-docker rm -f centos1
-```
+## 5. Ansible
 
-## 6. Ansible
-
-### 6.1 Ansible Project Structure
+### 5.1 Ansible Project Structure
 ```bash
 ├── inventories/ # Folder where the inventories will be stored
 │   └── inventory.ini # Main inventory
@@ -108,7 +102,7 @@ docker rm -f centos1
 ...
 ```
 
-### 6.2 My first ansible Code
+### 5.2 My first ansible Code
 We have generated these 2 easy yaml files to run our first ansible playbook
 - [inventories/inventory.ini](inventories/inventory.ini)
 - [playbooks/basic_playbook.yaml](playbooks/basic_playbook.yaml)
