@@ -1,0 +1,25 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
+- name: Create users
+  hosts: all
+  become: yes
+  vars:
+    users:
+      - user: quentin
+        password: ah7890sb4das0LP
+      - user: alex
+        password: AhIL9QZplc8xTHf
+      - user: kenza
+        password: DIsVJSZWcK63F82
+  tasks:
+  - name: Loop to create users
+    ansible.builtin.user:
+      user: "{{ item.user }}"
+      password: "{{ item.password }}"
+      state: present
+      update_password: on_create
+  # - debug:
+  #     msg: "{{ item.password }}"
+    loop: "{{ users }}"
+
+# Exec the following script to encrypt the password:
+# ansible all -i localhost, -m debug -a "msg={{ 'mypassword' | password_hash('sha512', 'mysecretsalt') }}"

@@ -12,10 +12,11 @@
       name: "{{ item }}"
       state: present
     with_items: "{{ pack_list }}"
-  - name: Check packages
-    ansible.builtin.shell:
-      cmd: which "{{ item }}" 
-    with_items: "{{ pack_list }}"
-    register: result
-  - debug:
-      msg: "{{ result.results }}"
+
+  # - name: Check packages
+  #   ansible.builtin.shell:
+  #     cmd: which "{{ item }}" 
+  #   with_items: "{{ pack_list }}"
+  #   register: result
+  # - debug:
+  #     msg: "{{ result.results }}"

@@ -1,3 +1,4 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
 - name: Check the status of the ssh service and email if its down
   hosts: ubuntu1
   tasks:

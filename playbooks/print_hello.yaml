@@ -1,3 +1,4 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html
 - name: Print hello message to user
   hosts: ubuntu
   gather_facts: no

@@ -1,0 +1,10 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
+- name: Print hello message to user
+  hosts: ubuntu
+  gather_facts: no
+  vars:
+    hello_msg: Hello from Ansible
+  tasks:
+  - name: Printing hello in the server
+    command: echo "{{ hello_msg }}"
+    register: result

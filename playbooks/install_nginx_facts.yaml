@@ -1,0 +1,18 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html
+- name: Install NGINX in all hosts using gathered facts
+  hosts: all
+  tasks:
+  - debug:
+      var: ansible_facts.distribution_major_version
+  # - name: Installing NGINX on Ubuntu or Debian
+  #   ansible.builtin.apt:
+  #     name: vim
+  #     state: present
+  #   become: yes
+  #   when: ansible_facts.os_family == "Debian"
+  # - name: Install NGINX on Centos
+  #   ansible.builtin.yum:
+  #     name: vim
+  #     state: present
+  #   when: ansible_facts.os_family == "RedHat"
