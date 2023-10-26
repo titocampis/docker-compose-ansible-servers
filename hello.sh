@@ -1,0 +1,1 @@
+echo "Hello world Ansible and $1"
