@@ -8,3 +8,4 @@
   - name: Printing hello in the server
     command: echo "{{ hello_msg }}"
     register: result
+  

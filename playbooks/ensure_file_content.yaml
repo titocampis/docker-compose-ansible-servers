@@ -1,12 +1,9 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
 - name: Ensure file content 
-  hosts: ubuntu1
+  hosts: all
+  become: yes
   vars:
     file: /etc/ssh/sshd_config
     line: RSAAuthentication no
-  tasks:
-  - name: Ensuring {{ line }} in file {{ file }}
-    ansible.builtin.lineinfile:
-      path: "{{ file }}"
-      line: "{{ line }}"
-    become: yes
+  roles:
+  - role: ../roles/lineinfile

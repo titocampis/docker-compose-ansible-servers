@@ -1,0 +1,4 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html
+- name: Create Users
+  ansible.builtin.user: "{{ item }}"
+  with_items: "{{ users }}"

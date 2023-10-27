@@ -1,6 +1,0 @@
-- name: Ensure ssh service started
-  hosts: ubuntu
-  vars:
-    service: ssh
-  roles:
-  - role: ../roles/services
