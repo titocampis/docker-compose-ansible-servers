@@ -1,0 +1,11 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html
+- name: Ensuring {{ service }} service started
+  ansible.builtin.service:
+    name: "{{ service }}"
+    state: started
+  register: result
+
+- debug:
+    var: result.stdout
+  tags:
+    - check

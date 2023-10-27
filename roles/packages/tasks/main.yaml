@@ -1,0 +1,27 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html
+- name: Installing package in Debian System
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+  when: ansible_os_family|lower == "debian"
+  # when: ansible_facts.os_family|lower == "debian"
+  tags:
+  - always # To execute it always with tag independency
+
+- name: Installing packages in RedHat System
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+  when: ansible_os_family|lower == "redhat"
+  # when: ansible_facts.os_family|lower == "redhat"
+  tags:
+  - always # To execute it always with tag independency
+
+- name: Checking packages installation
+  ansible.builtin.command: which {{ item }}
+  with_items: "{{ packages }}"
+  tags:
+  - never # To not execute it by default if no tag is specified
+  - check

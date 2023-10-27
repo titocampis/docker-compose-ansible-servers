@@ -1,9 +1,12 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
 - name: Ensure file content 
   hosts: ubuntu1
+  vars:
+    file: /etc/ssh/sshd_config
+    line: RSAAuthentication no
   tasks:
-  - name: Add the line RSAAuthentication no if it is not present into /etc/ssh/sshd_config file
+  - name: Ensuring {{ line }} in file {{ file }}
     ansible.builtin.lineinfile:
-      path: /etc/ssh/sshd_config
-      line: 'RSAAuthentication no'
+      path: "{{ file }}"
+      line: "{{ line }}"
     become: yes
