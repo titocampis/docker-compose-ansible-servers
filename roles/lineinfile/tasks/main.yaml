@@ -1,0 +1,4 @@
+- name: Ensuring lines in file
+  ansible.builtin.lineinfile:
+    path: "{{ file }}"
+    line: "{{ line }}"

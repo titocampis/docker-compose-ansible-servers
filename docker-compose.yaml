@@ -1,0 +1,31 @@
+version: "2.22"
+services:
+  ubuntu1:
+    image: ubuntu:ssh
+    container_name: ubuntu1
+    ports:
+      - 1111:22
+    secrets:
+      - user_ssh_rsa
+  ubuntu2:
+    image: ubuntu:ssh
+    container_name: ubuntu2
+    ports:
+      - 2222:22
+    secrets:
+      - user_ssh_rsa
+  centos1:
+    image: centos:ssh
+    container_name: centos1
+    privileged: true
+    ports:
+      - 3333:22
+    volumes:
+      - type: bind
+        source: ~/.ssh/id_rsa_shared.pub
+        target: /home/${USR}/.ssh/authorized_keys
+        read_only: true
+
+secrets:
+  user_ssh_rsa:
+    file: ~/.ssh/id_rsa_shared.pub

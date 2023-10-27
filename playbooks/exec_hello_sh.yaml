@@ -1,0 +1,7 @@
+- name: Execute the script hello.sh in hosts
+  hosts: all
+  vars:
+    scripts: 
+    - ../hello.sh
+  roles:
+  - role: ../roles/scripts

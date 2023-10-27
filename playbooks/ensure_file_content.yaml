@@ -1,0 +1,9 @@
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
+- name: Ensure file content 
+  hosts: all
+  become: yes
+  vars:
+    file: /etc/ssh/sshd_config
+    line: RSAAuthentication no
+  roles:
+  - role: ../roles/lineinfile

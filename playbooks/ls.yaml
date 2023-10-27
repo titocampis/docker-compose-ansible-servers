@@ -1,0 +1,7 @@
+- name: Check if the file authorized keys exists in ~/.ssh directory
+  hosts: all
+  vars:
+    file: authorized_keys
+    dir: /home/alex/.ssh
+  roles:
+    - role: ../roles/commands
