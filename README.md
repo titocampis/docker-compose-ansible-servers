@@ -124,6 +124,8 @@ ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared
 - `-u`: to pass the user
 - `--check`: to do not exec the playbook, just check
 
+> :paperclip: **NOTE:** User the `-u` flag is the same as `--extra-vars ansible_user` or to define the variable inside the inventory or the playbook.
+
 ### 5.1 Executing more complex packages
 
 All the playbooks are designed using:

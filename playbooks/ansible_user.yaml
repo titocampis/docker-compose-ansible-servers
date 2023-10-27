@@ -1,0 +1,5 @@
+- name: Play to check the env var ansible_user
+  hosts: all
+  tasks:
+  - debug:
+      var: ansible_user

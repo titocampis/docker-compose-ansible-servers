@@ -1,7 +1,7 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
-- name: ls -la
+- name: Execute a command in a dir
   ansible.builtin.command: 
-    cmd: ls -la "{{ file }}"
+    cmd: "{{ command }}"
     chdir: "{{ dir }}"
   register: result
   tags:
