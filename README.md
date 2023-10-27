@@ -96,23 +96,97 @@ docker compose down
 
 ### 5.1 Ansible Project Structure
 ```bash
-├── inventories/ # Folder where the inventories will be stored
+├── inventories/ # Folder where inventories are stored
 │   └── inventory.ini # Main inventory
-├── playbooks/ # Folder where the playbooks will be stored
+├── playbooks/ # Folder where playbooks are stored
+│   └── ...
+├── roles/ # Folder where roles are stored
+│   └── ...
 ...
 ```
 
-### 5.2 My first ansible Code
+### 5.2 My first ansible Code - playbooks/helloworld.yaml
 We have generated these 2 easy yaml files to run our first ansible playbook
-- [inventories/inventory.ini](inventories/inventory.ini)
-- [playbooks/basic_playbook.yaml](playbooks/basic_playbook.yaml)
+- [inventories/inventory.ini](inventories/helloworld.yaml)
 
 So let's check it:
 ```bash
-ansible-playbook playbooks/basic_playbook.yaml -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex --check
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/basic_playbook.yaml --check
 ```
 And if everything went well, run it:
 ```bash
-ansible-playbook playbooks/basic_playbook.yaml -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/basic_playbook.yaml
 ```
 ![im2.png](pictures/im2.png)
+
+- `-i`: to set te inventory
+- `--private-key`: to pass a custom private key an not the default ones
+- `-u`: to pass the user
+- `--check`: to do not exec the playbook, just check
+
+### 5.1 Executing more complex packages
+
+All the playbooks are designed using:
+- `playbooks/PLAYBOOK_NAME.yaml`: to configure the playbook
+- `roles/ROLE_NAME/tasks`: to configure the tasks
+
+The execution should follow:
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/PLAYBOOK_NAME.yaml --diff --tags tag1,tag2,..,tagn --check
+```
+
+- `--diff`: when some file is modified by ansible, show it
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/PLAYBOOK_NAME.yaml --diff --tags tag1,tag2,..,tagn
+```
+
+### 5.3.1 Managing Packages
+
+- playbook: [playbooks/install_packages.yaml](playbooks/install_packages.yaml)
+- role: [roles/packages/tasks](roles/packages/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/install_packages.yaml --diff --tags debug --check
+```
+
+### 5.3.2 Managing Users
+- playbook: [playbooks/create_users.yaml](playbooks/create_users.yaml)
+- role: [roles/users/tasks](roles/users/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/create_users.yaml --diff --tags debug --check
+```
+
+### 5.3.3 Ensuring services
+- playbook: [playbooks/service_ensure.yaml](playbooks/service_ensure.yaml)
+- role: [roles/services/tasks](roles/services/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/service_ensure.yaml --diff --tags debug --check
+```
+
+
+### 5.3.4 Executing commands
+- playbook: [playbooks/ls.yaml](playbooks/ls.yaml)
+- role: [roles/commands/tasks](roles/commands/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/ls.yaml --diff --tags debug --check
+```
+
+### 5.3.5 Executing scripts
+- playbook: [playbooks/exec_hello_sh.yaml](playbooks/exec_hello_sh.yaml)
+- role: [roles/scripts/tasks](roles/scripts/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/exec_hello_sh.yaml --diff --tags debug --check
+```
+
+### 5.3.4 Ensure lines in files
+- playbook: []()
+- role: [roles/lineinfile/tasks](roles/lineinfile/tasks)
+
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/ensure_file_content.yaml --diff --check
+```
