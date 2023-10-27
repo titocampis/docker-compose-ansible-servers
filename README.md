@@ -137,6 +137,28 @@ The execution should follow:
 ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/PLAYBOOK_NAME.yaml --diff --tags tag1,tag2,..,tagn --check
 ```
 
+> :paperclip: If you want to not pass every time the pubkey you can stored in your ssh default keys using the `ssh-agent`, [documentation](https://www.linode.com/docs/guides/using-ssh-agent/)
+>
+>Starting up ssh-agent:
+>```bash
+> eval `ssh-agent`
+>```
+>
+> Check the `ssh-agent` is running:
+>```bash
+> echo $SSH_AUTH_SOCK
+>```
+>
+> Add the key you want to 
+>```bash
+> ssh-add ~/.ssh/custom_key
+>```
+> 
+> To get a list of all the keys added
+>```bash
+> ssh-add -l
+>```
+
 - `--diff`: when some file is modified by ansible, show it
 
 ```bash
