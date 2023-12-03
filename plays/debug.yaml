@@ -1,0 +1,13 @@
+- name: Check the Ansible environment variables inside [debug_vars]
+  hosts: all
+  
+  vars:
+    debug_vars:
+    - ansible_user
+    - ansible_check_mode
+    - ansible_sudo_pass
+    - ansible_facts.architecture
+    - ansible_facts.distribution_file_path
+  
+  roles:
+  - role: roles/debug

@@ -1,0 +1,22 @@
+- name: Ensuring services in [services_rh_started] started in Debian Systems
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+  with_items: "{{ services_rh_started }}"
+  when: ansible_os_family|lower == "redhat" # Centos
+  register: result
+
+# Because ubuntu in docker do not run systemd: https://stackoverflow.com/questions/39169403/not-able-to-use-systemd-on-ubuntu-docker-container
+- name: Ensuring services in [services_debian_started] started in RedHat Systems
+  become: yes
+  ansible.builtin.command: service "{{ item }}" start
+  with_items: "{{ services_debian_started }}"
+  when: ansible_os_family|lower == "debian" # Ubuntu
+  register: result
+
+- debug:
+    var: result.results[{{ my_idx }}].stdout_lines
+  when: (ansible_os_family|lower == "debian") and (not ansible_check_mode)
+  loop: "{{ services_debian_started }}"
+  loop_control:
+    index_var: my_idx

@@ -1,0 +1,18 @@
+- name: Check if the file authorized keys exists in ~/.ssh directory
+  hosts: all
+  
+  vars:
+    command: ls -la
+    dir: /home/alex/.ssh
+
+  tasks:
+  - name: Execute the command in [command]
+    ansible.builtin.command: 
+      cmd: "{{ command }}"
+      chdir: "{{ dir }}"
+    register: result
+  
+  - name: Check the result
+    debug:
+      var: result.stdout_lines
+    when: not ansible_check_mode

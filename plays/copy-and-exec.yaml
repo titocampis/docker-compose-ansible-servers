@@ -1,0 +1,17 @@
+- name: Execute the script hello.sh in hosts
+  hosts: all
+  
+  vars:
+    scripts: 
+    - ../hello.sh
+
+  tasks:  
+    - name: Coping and executing scripts
+      ansible.builtin.script: 
+        cmd: "{{ item }} alex"
+      with_items: "{{ scripts }}"
+      register: result
+
+    - debug:
+        var: result
+      when: not ansible_check_mode

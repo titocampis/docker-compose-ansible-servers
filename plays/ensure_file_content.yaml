@@ -2,8 +2,10 @@
 - name: Ensure file content 
   hosts: all
   become: yes
+  
   vars:
     file: /etc/ssh/sshd_config
     line: RSAAuthentication no
+  
   roles:
-  - role: ../roles/lineinfile
+  - role: roles/lineinfile

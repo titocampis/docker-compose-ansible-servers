@@ -175,12 +175,17 @@ ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared
 ```
 
 ### 5.3.2 Managing Users
-- playbook: [playbooks/create_users.yaml](playbooks/create_users.yaml)
+- playbook: [playbooks/users.yaml](playbooks/users.yaml)
 - role: [roles/users/tasks](roles/users/tasks)
 
 ```bash
-ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/create_users.yaml --diff --tags debug --check
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/users.yaml --diff --tags users --extra-vars ansible_sudo_pass=THEPASSWORD --check
 ```
+
+> :warning: **WARNING:** The hosts do not have the `alex` user to have sudo permissions without password, you can run the `users` packages with `sudo` tags to do it, if not you should pass the `alex sudo password` to ansible: 
+```bash
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/users.yaml --diff --tags users --check
+``
 
 ### 5.3.3 Ensuring services
 - playbook: [playbooks/service_ensure.yaml](playbooks/service_ensure.yaml)
@@ -192,16 +197,14 @@ ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared
 
 
 ### 5.3.4 Executing commands
-- playbook: [playbooks/ls.yaml](playbooks/ls.yaml)
-- role: [roles/commands/tasks](roles/commands/tasks)
+- playbook: [playbooks/ls-authorized_keys.yaml](playbooks/ls-authorized_keys.yaml)
 
 ```bash
-ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/ls.yaml --diff --tags debug --check
+ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/ls-authorized_keys.yaml --diff --check
 ```
 
 ### 5.3.5 Executing scripts
-- playbook: [playbooks/exec_hello_sh.yaml](playbooks/exec_hello_sh.yaml)
-- role: [roles/scripts/tasks](roles/scripts/tasks)
+- playbook: [playbooks/copy-and-exec.yaml](playbooks/copy-and-exec.yaml)
 
 ```bash
 ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/exec_hello_sh.yaml --diff --tags debug --check
@@ -214,3 +217,12 @@ ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared
 ```bash
 ansible-playbook -i inventories/inventory.ini --private-key ~/.ssh/id_rsa_shared -u alex playbooks/ensure_file_content.yaml --diff --check
 ```
+
+## Next Steps
+| **Status** | **Task** |
+|----------|----------|
+| :clock10: | Check how to encrypt passwords with ansible for the users |
+| :clock10: | Change the debian image version to not latest |
+| :clock10: | Check run services in Debian Hosts |
+| :clock10: | Check install packages |
+| :clock10: | Ensure ssh authorized keys |
