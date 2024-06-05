@@ -1,0 +1,14 @@
+- name: Ensure the existance of the users inside the env_var [users_present]
+  ansible.builtin.user: 
+      name: "{{ item.name }}"
+      password: "{{ item.password }}"
+      update_password: on_create
+      state: present
+      non_unique: yes
+  with_items: "{{ users_present }}"
+
+- name: Remove the users inside the env_var [users_absent]
+  ansible.builtin.user: 
+      name: "{{ item }}"
+      state: absent
+  with_items: "{{ users_absent }}"

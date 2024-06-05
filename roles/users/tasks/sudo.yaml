@@ -1,0 +1,26 @@
+- name: Ensure users in the env_var [users_sudo] inside sudo group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: sudo
+    append: true
+  with_items: "{{ users_sudo }}"
+
+- name: Ensure users in the env_var [users_sudo] inside sudoers file without password
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    line: "{{ item }}       ALL=(ALL:ALL) NOPASSWD:ALL"
+  with_items: "{{ users_sudo }}"
+
+- name: Revoke sudo permissions of users in the env_var [users_sudo_revoke]
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: ""
+  with_items: "{{ users_sudo_revoke }}"
+
+- name: Remove users in the env_var [users_sudo_revoke] from sudoers file
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: absent
+    line: "{{ item }}       ALL=(ALL:ALL) NOPASSWD:ALL"
+  with_items: "{{ users_sudo_revoke }}"

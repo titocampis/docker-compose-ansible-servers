@@ -1,0 +1,4 @@
+- name: Check the ansible variables inside the env_var [debug_vars]
+  debug:
+    var: "{{ item }}"
+  with_items: "{{ debug_vars }}"

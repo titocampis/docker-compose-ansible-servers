@@ -1,4 +1,10 @@
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html
-- name: Create Users
-  ansible.builtin.user: "{{ item }}"
-  with_items: "{{ users }}"
+# Main yaml from users role, importing all the tasks with its tag
+- import_tasks: users.yaml
+  tags:
+  - users
+  - users-users
+
+- import_tasks: sudo.yaml
+  tags:
+  - users
+  - users-sudo

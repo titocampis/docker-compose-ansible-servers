@@ -1,5 +1,5 @@
-# Download base image ubuntu 18.04
-FROM ubuntu:latest
+# Download base image ubuntu 22.04
+FROM ubuntu:22.04
 
 # Defining the user and password
 ARG USER=alex

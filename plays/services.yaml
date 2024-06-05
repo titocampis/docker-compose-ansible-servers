@@ -1,0 +1,13 @@
+- name: Ensure services in [services_started] started
+  hosts: all
+
+  vars:
+    services_debian_started:
+    - ssh
+    - dbus
+    services_rh_started:
+    - sshd
+    - dbus
+  
+  roles:
+  - role: roles/services

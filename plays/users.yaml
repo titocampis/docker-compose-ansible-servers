@@ -1,0 +1,20 @@
+- name: Manage Hosts users
+  hosts: all
+  become: yes
+  
+  vars:
+    users_sudo_revoke: []
+    users_sudo:
+    - alex
+    users_absent: []
+    users_present:
+    - name: sergi
+      password: ah7890sb4das0LP
+    - name: claudia
+      password: DIsVJSZWcK63F82
+  
+  roles:
+  - role: roles/users
+
+# Exec the following script to encrypt the password:
+# ansible all -i localhost, -m debug -a "msg={{ 'mypassword' | password_hash('sha512', 'mysecretsalt') }}"

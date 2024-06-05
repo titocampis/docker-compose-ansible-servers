@@ -1,0 +1,5 @@
+# Main yaml from debug role, importing all the tasks with its tag
+- import_tasks: ansible_vars.yaml
+  tags:
+  - debug
+  - debug_ansible_vars

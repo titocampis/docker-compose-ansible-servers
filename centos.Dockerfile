@@ -1,4 +1,4 @@
-# Download base image ubuntu 18.04
+# Download base image of centos with systemd
 FROM centos/systemd:latest
 
 # Defining the user and password

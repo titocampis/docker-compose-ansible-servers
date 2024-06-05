@@ -1,26 +1,4 @@
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html
-- name: Ensuring services started in Debian Systems
-  ansible.builtin.service:
-    name: "{{ item }}"
-    state: started
-  with_items: "{{ services_debian }}"
-  when: ansible_os_family|lower == "debian" # Ubuntu
-  register: result
+# Main yaml from services role, importing all the tasks with its tag
+- import_tasks: services.yaml
   tags:
-  - always
-
-- name: Ensuring services started in RedHat Systems
-  ansible.builtin.service:
-    name: "{{ item }}"
-    state: started
-  with_items: "{{ services_rh }}"
-  when: ansible_os_family|lower == "redhat" # Ubuntu
-  register: result
-  tags:
-  - always
-
-- debug:
-    var: result.results[0].state
-  tags:
-    - never
-    - debug
+  - services
